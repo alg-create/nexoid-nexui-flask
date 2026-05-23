@@ -15,5 +15,15 @@ setuptools.setup(
         "License :: Other/Proprietary License",
         "Operating System :: OS Independent",
     ],
+    install_requires=[
+        'flask',
+        'flask-socketio',
+        'pynng',
+        'asn1tools',
+        'babel',
+        'bitstring',
+        'python-dateutil',
+        'timebudget'
+    ],
     python_requires='>=3.6',
 )

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexo Payments Platform</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="app.css">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header glass">
+            <div class="logo-area">
+                <div class="logo-circle"></div>
+                <h1>Nexo Payments</h1>
+            </div>
+            <div class="status-indicator">
+                <span class="status-dot" id="connection-dot"></span>
+                <span id="connection-status">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Column: Transaction Details & Logs -->
+            <div class="column left-column">
+                
+                <!-- Transaction Info Panel -->
+                <section class="panel glass">
+                    <div class="panel-header">
+                        <h2>Transaction Details</h2>
+                        <span class="badge">Live Demo</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="detail-row">
+                            <span class="label">Vendor</span>
+                            <span class="value">Acme Corp</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Product</span>
+                            <span class="value">Enterprise License</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Price</span>
+                            <div class="price-input-group">
+                                <span class="currency">EUR</span>
+                                <input type="number" id="transaction-amount" value="56.99" step="0.01">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block mt-4" id="btn-start-transaction">
+                            Start Payment
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Transaction Logs Panel -->
+                <section class="panel glass logs-panel">
+                    <div class="panel-header">
+                        <h2>Event Log</h2>
+                        <button class="btn btn-sm btn-outline" id="btn-clear-logs">Clear</button>
+                    </div>
+                    <div class="panel-body p-0">
+                        <div class="log-container" id="log-container">
+                            <!-- Log entries will be prepended here -->
+                            <div class="log-entry placeholder">
+                                <span class="log-time">--:--:--</span>
+                                <span class="log-message">Waiting for events...</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Right Column: Interactive Terminal -->
+            <div class="column right-column">
+                <section class="panel glass terminal-panel">
+                    <div class="panel-header">
+                        <h2>Terminal Interaction</h2>
+                    </div>
+                    <div class="panel-body flex-col" id="terminal-screen">
+                        
+                        <!-- Terminal Display -->
+                        <div class="terminal-display glass-dark" id="display-area">
+                            <div class="display-message" id="main-message">Ready</div>
+                            <div class="display-submessage" id="sub-message">Start a transaction to begin</div>
+                        </div>
+
+                        <!-- Dynamic Input Area -->
+                        <div class="input-area" id="input-area">
+                            <!-- Inputs will be dynamically injected here based on SCAPI requests -->
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Templates for Dynamic Inputs -->
+    <template id="tpl-card-input">
+        <div class="input-group slide-up">
+            <label>Enter Card Number (PAN)</label>
+            <input type="text" id="input-pan" placeholder="xxxx xxxx xxxx xxxx" class="modern-input" autocomplete="off">
+            <div class="helper-text">Test PANs: 4111..., 5555...</div>
+            <button class="btn btn-primary mt-2 btn-submit-pan">Submit</button>
+        </div>
+    </template>
+
+    <template id="tpl-expiry-input">
+        <div class="input-group slide-up flex-row">
+            <div class="flex-1">
+                <label>Month</label>
+                <input type="text" id="input-month" placeholder="MM" class="modern-input" maxlength="2">
+            </div>
+            <div class="flex-1 ml-2">
+                <label>Year</label>
+                <input type="text" id="input-year" placeholder="YY" class="modern-input" maxlength="2">
+            </div>
+            <button class="btn btn-primary ml-2 btn-submit-expiry">Next</button>
+        </div>
+    </template>
+    
+    <template id="tpl-cvd-input">
+        <div class="input-group slide-up flex-row">
+            <div class="flex-1">
+                <label>CVD / CVV</label>
+                <input type="text" id="input-cvd" placeholder="123" class="modern-input" maxlength="4">
+            </div>
+            <button class="btn btn-primary ml-2 btn-submit-cvd">Next</button>
+        </div>
+    </template>
+</body>
+</html>

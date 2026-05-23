@@ -1,6 +1,5 @@
 '''Main entry for standalone server'''
-from gevent.pywsgi import WSGIServer
-from . import app
+from . import app, socketio
 
-http_server = WSGIServer(('', 5000), app)
-http_server.serve_forever()
+if __name__ == '__main__':
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)
