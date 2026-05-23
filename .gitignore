@@ -1,0 +1,4 @@
+.vscode/
+nexui/__pycache__/
+nexui/scap4nexui/__pycache__/
+nexui_demo.egg-info/
