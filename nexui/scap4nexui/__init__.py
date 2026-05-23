@@ -61,7 +61,7 @@ class ScapSession:
                     ui_msg_str = ui_msg.decode('utf-8') if isinstance(ui_msg, bytes) else ui_msg
                     
                     # Send to UI via SocketIO
-                    self.socketio.emit('ui_request', ui_msg_str, room=self.session_id)
+                    self.socketio.emit('ui_request', ui_msg_str, to=self.session_id)
                     
                     # Wait for UI response
                     rsp_json = self.ui_response_queue.get()

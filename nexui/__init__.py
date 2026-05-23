@@ -111,7 +111,7 @@ def handle_connect():
     info(f"Client connected: {sid}")
     join_room(sid)
     session_manager.create_session(sid)
-    emit('connected', {'sid': sid}, room=sid)
+    emit('connected', {'sid': sid}, to=sid)
 
 @socketio.on('disconnect')
 def handle_disconnect():
